@@ -1,10 +1,10 @@
 ---
 - hosts: newservers
   vars:
-  - ubuntu_release: lucid
-  - logwatch_email: ops@practicalops.com
-  - deploy_password: '$6$AC3bdCF7!$rVroC3j8Ue5M2sEsJeXOzfztBNaBzKEiOzfkOSpqDHjcDDLP65dSRlUeHSir9JiC1k6AAWS2lYHJzmuxbojz0/'
-    # crypted password, generated on a Linux box using: echo 'import crypt,getpass; print crypt.crypt(getpass.getpass(), "$6$AC3bdCF7!")' | python -
+  - ubuntu_release: trusty
+  - logwatch_email: manager@lollypop.org
+  - deploy_password: '$6$kH73u1wqZyyrZK$0jYjOJxipGBetKt.eP2h/UYdU0U.P7pa0UctncT4cmagi4il07gR78ZJfIo1XmRnOgmueIYuhL7lpEI9wotIo/'
+    # crypted password, generated on a Linux box using: mkpasswd --method=SHA-512 [:-)]
 
   tasks:
   - name: Update APT package cache
@@ -17,10 +17,16 @@
     action: apt pkg=fail2ban state=installed
 
   - name: Add deployment user
-    action: user name=deploy password=$deploy_password
+    action: user name=deploy password={{ deploy_password }} groups=sudo append=yes generate_ssh_key=yes ssh_key_bits=2048 state=present
 
-  - name: Add authorized deploy key for Fred
-    action: authorized_key user=deploy key='$FILE(fred.pub)'
+  - name: Add authorized deploy key for marcos-summa
+    action: authorized_key user=deploy key='$FILE(marcos-summa.pub)'
+
+  - name: Add authorized deploy key for marcos-macmini
+    action: authorized_key user=deploy key='$FILE(marcos-macmini.pub)'
+
+  - name: Add authorized deploy key for marcos-mac-air
+    action: authorized_key user=deploy key='$FILE(marcos-mac-air.pub)'
 
   - name: Remove sudo group rights
     action: lineinfile dest=/etc/sudoers regexp="^%sudo" state=absent
@@ -38,7 +44,7 @@
 
   - name: Install unattended-upgrades
     action: apt pkg=unattended-upgrades state=present
-  
+
   - name: Adjust APT update intervals
     action: copy src=config/apt_periodic dest=/etc/apt/apt.conf.d/10periodic
 

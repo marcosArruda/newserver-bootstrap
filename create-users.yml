@@ -20,6 +20,9 @@
     - name: Add authorized deploy key for marcos-summa
       action: authorized_key user=deploy key="{{ lookup('file', 'marcos.pub') }}"
 
+    - name: Add authorized deploy key for marcos-mac
+      action: authorized_key user=deploy key="{{ lookup('file', 'marcos-mac.pub') }}"
+
   #- name: Add authorized deploy key for marcos-macmini
   #  action: authorized_key user=deploy key='$FILE(marcos-macmini.pub)'
 

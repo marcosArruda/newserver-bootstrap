@@ -10,7 +10,7 @@ Vagrant.configure(2) do |config|
   end
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = "create-users.yml"
-    ansible.verbose = "vv"
+    #ansible.verbose = "vv"
   end
   config.vm.define "tomcat1" do |tomcat1|
     tomcat1.vm.hostname = "tomcat1"

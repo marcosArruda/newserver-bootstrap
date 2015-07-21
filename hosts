@@ -1,15 +1,12 @@
-[newservers]
-127.0.0.1:2222
-
 [appservers]
-192.168.56.101 ansible_ssh_user=deploy
-192.168.56.102 ansible_ssh_user=deploy
+tomcat1 ansible_ssh_user=deploy
+tomcat2 ansible_ssh_user=deploy
 
 [dbservers]
-db1
+db1 ansible_ssh_user=deploy
 
 [lbservers]
-lb1
+loadbalancer1 ansible_ssh_user=deploy
 
 [monitoring]
-nagios1
+monitoring1 ansible_ssh_user=deploy

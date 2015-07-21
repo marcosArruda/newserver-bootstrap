@@ -1,9 +1,9 @@
 ---
-- hosts: appservers
+- hosts: all
   sudo: yes
   vars:
   - ubuntu_release: trusty
-  - logwatch_email: manager@lollypop.org
+  - logwatch_email: manager@mail.com
   - deploy_password: '$6$kH73u1wqZyyrZK$0jYjOJxipGBetKt.eP2h/UYdU0U.P7pa0UctncT4cmagi4il07gR78ZJfIo1XmRnOgmueIYuhL7lpEI9wotIo/'
     # crypted password, generated on a Linux box using: mkpasswd --method=SHA-512 [:-)]
 
@@ -13,32 +13,6 @@
 
     - name: Install fail2ban
       action: apt pkg=fail2ban state=installed
-
-    #- name: Add deployment user
-    #  action: user name=deploy shell=/bin/bash password={{ deploy_password }} groups=sudo append=yes generate_ssh_key=yes ssh_key_bits=2048 state=present
-
-    #- name: Add authorized deploy key for marcos-summa
-    #  action: authorized_key user=deploy key="{{ lookup('file', 'marcos.pub') }}"
-
-  #- name: Add authorized deploy key for marcos-macmini
-  #  action: authorized_key user=deploy key='$FILE(marcos-macmini.pub)'
-
-  #- name: Add authorized deploy key for marcos-mac-air
-  #  action: authorized_key user=deploy key='$FILE(marcos-mac-air.pub)'
-
-  #- name: Remove sudo group rights
-  #  action: lineinfile dest=/etc/sudoers regexp="^%sudo" state=absent
-
-  #  - name: Add deploy user to sudoers
-  #    action: lineinfile dest=/etc/sudoers regexp="deploy ALL" line="deploy ALL=(ALL) ALL" state=present
-
-  #  - name: Disallow root SSH access
-  #    action: lineinfile dest=/etc/ssh/sshd_config regexp="^PermitRootLogin" line="PermitRootLogin no" state=present
-  #    notify: Restart sshd
-
-  #  - name: Disallow password authentication
-  #    action: lineinfile dest=/etc/ssh/sshd_config regexp="^PasswordAuthentication" line="PasswordAuthentication no" state=present
-  #    notify: Restart sshd
 
     - name: Install unattended-upgrades
       action: apt pkg=unattended-upgrades state=present
@@ -60,9 +34,6 @@
 
     - name: Make logwatch mail $logwatch_email daily
       action: lineinfile dest=/etc/cron.daily/00logwatch regexp="^/usr/sbin/logwatch" line="/usr/sbin/logwatch --output mail --mailto $logwatch_email --detail high" state=present create=yes
-
-    #- name: reboot
-    #  command: /sbin/reboot
 
   handlers:
     - name: Restart sshd

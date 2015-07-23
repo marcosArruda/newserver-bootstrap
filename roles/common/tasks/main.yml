@@ -9,11 +9,11 @@
   with_items:
    - apparmor
 
-- name: Create the repository for EPEL
-  copy: src=epel.repo dest=/etc/yum.repos.d/epel.repo
+#- name: Create the repository for EPEL
+#  copy: src=epel.repo dest=/etc/yum.repos.d/epel.repo
 
-- name: Create the GPG key for EPEL
-  copy: src=RPM-GPG-KEY-EPEL-6 dest=/etc/pki/rpm-gpg
+#- name: Create the GPG key for EPEL
+#  copy: src=RPM-GPG-KEY-EPEL-6 dest=/etc/pki/rpm-gpg
 
 - name: install some useful nagios plugins
   apt: name={{ item }} state=present
@@ -25,7 +25,7 @@
    - nagios-plugins-load
    - nagios-plugins-disk
 
-- name: Install ntp
+- name: Install ntp (Network Time Protocol)
   apt: name=ntp state=present
   tags: ntp
 

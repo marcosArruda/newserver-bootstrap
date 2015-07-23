@@ -1,0 +1,9 @@
+---
+- hosts: db1
+  sudo: yes
+  vars:
+    postgresql_dev_headers: yes
+    postgresql_contrib: yes
+    postgresql_postgis: yes
+  roles:
+    - postgresql

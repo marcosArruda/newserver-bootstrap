@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: db1
   sudo: yes
   vars:
   - ubuntu_release: trusty

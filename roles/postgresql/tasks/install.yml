@@ -2,6 +2,9 @@
 
 # Official PostgreSQL [repository] for debian-based distributions
 # [repository]: http://www.postgresql.org/download/
+- name: reconfigure locales
+  sudo: yes
+  shell: locale-gen pt_BR.UTF-8 && locale-gen --purge && dpkg-reconfigure locales;
 
 - name: Adding APT repository key
   sudo: yes
@@ -29,16 +32,21 @@
     - python-psycopg2
     - "postgresql-contrib-{{postgresql_version}}"
     - "postgresql-{{postgresql_version}}"
+    - "postgresql-{{postgresql_version}}-postgis-{{postgresql_postgis_version}}"
+    - libgeos-c1
 
 - name: restart postgresql
   sudo: yes
   service: name=postgresql state=restarted
 
-- name: Install dependencies for POSTGIS
+- name: Add authorized postgres's key for marcos-summa
   sudo: yes
-  apt:
-    name: "{{item}}"
-    state: latest
-  with_items:
-    - "postgresql-{{postgresql_version}}-postgis-{{postgresql_postgis_version}}"
-    - libgeos-c1
+  action: authorized_key user=postgres key="{{ lookup('file', 'marcos.pub') }}"
+
+- name: Add authorized postgres's key for marcos-mac
+  sudo: yes
+  action: authorized_key user=postgres key="{{ lookup('file', 'marcos-mac.pub') }}"
+
+- name: Add postgres user to sudoers
+  sudo: yes
+  action: lineinfile dest=/etc/sudoers regexp="postgres ALL" line="postgres ALL=(ALL) NOPASSWD:ALL" state=present

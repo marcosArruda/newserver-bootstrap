@@ -3,7 +3,7 @@
 
 Vagrant.configure(2) do |config|
   config.vm.box = "marruda/trusty64-java-all"
-  
+
   config.vm.provider "virtualbox" do |allvm|
     allvm.gui = false
     allvm.memory = "512"
@@ -29,6 +29,7 @@ Vagrant.configure(2) do |config|
   config.vm.define "db1" do |db1|
     db1.vm.hostname = "db1"
     db1.vm.network "private_network", ip: "192.168.56.103"
+    
   end
 
   config.vm.define "loadbalancer1" do |loadbalancer1|

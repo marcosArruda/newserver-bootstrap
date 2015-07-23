@@ -49,8 +49,8 @@
     #- name: Make logwatch mail $logwatch_email daily
     #  action: lineinfile dest=/etc/cron.daily/00logwatch regexp="^/usr/sbin/logwatch" line="/usr/sbin/logwatch --output mail --mailto $logwatch_email --detail high" state=present create=yes
 
-    - name: reboot
-      command: /sbin/reboot
+    #- name: reboot
+    #  command: /sbin/reboot
 
   handlers:
     - name: Restart sshd

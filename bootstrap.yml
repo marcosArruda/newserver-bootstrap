@@ -4,8 +4,6 @@
   vars:
   - ubuntu_release: trusty
   - logwatch_email: manager@mail.com
-  - deploy_password: '$6$kH73u1wqZyyrZK$0jYjOJxipGBetKt.eP2h/UYdU0U.P7pa0UctncT4cmagi4il07gR78ZJfIo1XmRnOgmueIYuhL7lpEI9wotIo/'
-    # crypted password, generated on a Linux box using: mkpasswd --method=SHA-512 [:-)]
 
   tasks:
     - name: Run apt-get upgrade

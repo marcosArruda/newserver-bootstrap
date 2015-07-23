@@ -4,48 +4,41 @@
 # [repository]: http://www.postgresql.org/download/
 
 - name: Adding APT repository key
-  when: ansible_os_family == 'Debian'
   sudo: yes
   apt_key:
     id: ACCC4CF8
     url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
-  tags:
-    - postgresql
-    - db
-    - repo
 
 - name: Add PostgreSQL official APT repository
-  when: ansible_os_family == 'Debian'
   sudo: yes
   apt_repository:
     repo: "deb http://apt.postgresql.org/pub/repos/apt/ {{ansible_distribution_release}}-pgdg main"
-  tags:
-    - postgresql
-    - db
-    - repo
 
-- name: Install PostgreSQL
-  when: ansible_os_family == 'Debian'
-  sudo: yes
-  apt:
-    name: "postgresql-{{postgresql_version}}"
-    state: present
-    update_cache: yes
-    cache_valid_time: 3600
-  tags:
-    - postgresql
-    - db
-    - deps
+- name: Run apt-get updade
+  apt: update_cache=yes
 
-- name: Install dependencies for the Ansible module
-  when: ansible_os_family == 'Debian'
+- name: Install dependencies for PostgreSQL and Ansible Postgresql module
   sudo: yes
   apt:
     name: "{{item}}"
     state: latest
   with_items:
+    - python-software-properties
+    - software-properties-common
+    - libpq-dev
     - python-psycopg2
-  tags:
-    - postgresql
-    - db
-    - deps
+    - "postgresql-contrib-{{postgresql_version}}"
+    - "postgresql-{{postgresql_version}}"
+
+- name: restart postgresql
+  sudo: yes
+  service: name=postgresql state=restarted
+
+- name: Install dependencies for POSTGIS
+  sudo: yes
+  apt:
+    name: "{{item}}"
+    state: latest
+  with_items:
+    - "postgresql-{{postgresql_version}}-postgis-{{postgresql_postgis_version}}"
+    - libgeos-c1

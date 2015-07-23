@@ -1,9 +1,19 @@
 ---
 - hosts: db1
   sudo: yes
-  vars:
-    postgresql_dev_headers: yes
-    postgresql_contrib: yes
-    postgresql_postgis: yes
   roles:
     - postgresql
+
+  tasks:
+    - name: Add authorized postgres's key for marcos-summa
+      action: authorized_key user=postgres key="{{ lookup('file', 'marcos.pub') }}"
+
+    - name: Add authorized postgres's key for marcos-mac
+      action: authorized_key user=postgres key="{{ lookup('file', 'marcos-mac.pub') }}"
+
+    - name: Add postgres user to sudoers
+      action: lineinfile dest=/etc/sudoers regexp="postgres ALL" line="postgres ALL=(ALL) NOPASSWD:ALL" state=present
+      
+    - name: restart postgresql
+      sudo: yes
+      service: name=postgresql state=restarted

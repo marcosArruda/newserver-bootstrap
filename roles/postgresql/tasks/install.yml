@@ -35,6 +35,15 @@
     - "postgresql-{{postgresql_version}}-postgis-{{postgresql_postgis_version}}"
     - libgeos-c1
 
+- name: Install dependencies for POSTGIS
+  sudo: yes
+  apt:
+    name: "{{item}}"
+    state: latest
+  with_items:
+    - "postgresql-{{postgresql_version}}-postgis-{{postgresql_postgis_version}}"
+    - libgeos-c1
+
 - name: restart postgresql
   sudo: yes
   service: name=postgresql state=restarted

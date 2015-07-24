@@ -29,7 +29,9 @@ Vagrant.configure(2) do |config|
   config.vm.define "db1" do |db1|
     db1.vm.hostname = "db1"
     db1.vm.network "private_network", ip: "192.168.56.103"
-    
+    db1.vm.provision "ansible" do |db1_ansible|
+      db1_ansible.playbook = "install-postgres.yml"
+    end
   end
 
   config.vm.define "loadbalancer1" do |loadbalancer1|

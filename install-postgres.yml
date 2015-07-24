@@ -2,6 +2,8 @@
 - hosts: db1
   sudo: yes
   gather_facts: no
+  vars:
+    ansible_distribution_release: trusty
   roles:
     - postgresql
 
@@ -15,6 +17,8 @@
       lineinfile: dest=/etc/postgresql/9.4/main/postgresql.conf
                   regexp="^listen_addresses"
                   line="listen_addresses = '*'" state=present
+      tags:
+         - config
 
     - name: postgresql should allow access to host
       copy:
@@ -23,7 +27,28 @@
           local   all   postgres   peer
           local   all   all        peer
           host    all   all        0.0.0.0/0   md5
+      tags:
+         - config
 
     - name: restart postgresql
       sudo: yes
       service: name=postgresql state=restarted
+      tags:
+         - config
+
+# Create rails user, grant privilege to create other databases and demote rails from super user status
+#- postgresql_user: name=rails password=secret role_attr_flags=CREATEDB,NOSUPERUSER
+    - name: creating database user app
+      postgresql_user: name=app db=postgres password=app priv=ALL
+      tags:
+         - createdb
+
+    - name: creating basic database
+      postgresql_db: name=app
+                     encoding='UTF-8'
+                     lc_collate='pt_BR.UTF-8'
+                     lc_ctype='pt_BR.UTF-8'
+                     template='template0'
+                     owner='app'
+      tags:
+       - createuser

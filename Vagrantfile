@@ -10,7 +10,7 @@ Vagrant.configure(2) do |config|
   end
 
   config.vm.provision "ansible" do |ansible|
-    ansible.playbook = "create-users.yml"
+    ansible.playbook = "basic-configuration.yml"
     #ansible.verbose = "vv"
   end
 
@@ -30,7 +30,7 @@ Vagrant.configure(2) do |config|
     db1.vm.hostname = "db1"
     db1.vm.network "private_network", ip: "192.168.56.103"
     db1.vm.provision "ansible" do |db1_ansible|
-      db1_ansible.playbook = "install-postgres.yml"
+      db1_ansible.playbook = "install-and-configures-postgres.yml"
     end
   end
 

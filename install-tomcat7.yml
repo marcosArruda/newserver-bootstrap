@@ -23,7 +23,7 @@
 
     - name: Configuring Tomcat7 users
       sudo: yes
-      template: src=config/tomcat7-users-template.xml dest=/etc/tomcat7/tomcat-users.xml
+      template: src=config/tomcat7-users-template.xml dest=/etc/tomcat7/tomcat-users.xml owner=tomcat7 group=tomcat7 mode=0777
       tags:
         - config
 

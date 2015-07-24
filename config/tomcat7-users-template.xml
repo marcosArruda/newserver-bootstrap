@@ -19,5 +19,5 @@ manager-jmx — Access to JMX proxy interface and to the "Server Status" page.
   <role rolename="admin-script"/>
   <role rolename="admin-jmx"/>
 
-  <user username="deploy" password="{{tomcat-deploy-password}}" roles="manager-gui,manager-status,manager-script,manager-jmx,admin-gui,admin-status,admin-script,admin-jmx"/>
+  <user username="deploy" password="{{tomcat_deploy_password}}" roles="manager-gui,manager-status,manager-script,manager-jmx,admin-gui,admin-status,admin-script,admin-jmx"/>
 </tomcat-users>

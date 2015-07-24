@@ -33,14 +33,17 @@
       action: lineinfile dest=/etc/ssh/sshd_config regexp="^PasswordAuthentication" line="PasswordAuthentication no" state=present
       notify: Restart sshd
 
-    - name: Install unattended-upgrades
-      action: apt pkg=unattended-upgrades state=present
+    #- name: Make sure unattended-upgrades only installs from $ubuntu_release-security
+    #  action: lineinfile dest=/etc/apt/apt.conf.d/50unattended-upgrades regexp="$ubuntu_release-updates" state=absent
+
+    #- name: Install unattended-upgrades
+    #  action: apt pkg=unattended-upgrades state=present
 
     - name: Adjust APT update intervals
       action: copy src=config/apt_periodic dest=/etc/apt/apt.conf.d/10periodic
 
-    - name: Make sure unattended-upgrades only installs from $ubuntu_release-security
-      action: lineinfile dest=/etc/apt/apt.conf.d/50unattended-upgrades regexp="$ubuntu_release-updates" state=absent
+    #- name: Make sure unattended-upgrades only installs from $ubuntu_release-security
+    #  action: lineinfile dest=/etc/apt/apt.conf.d/50unattended-upgrades regexp="$ubuntu_release-updates" state=absent
 
     #- name: Copy debconf selections so that Postfix can configure itself non-interactively
     #  copy: src=config/postfix_selections  dest=/tmp/postfix_selections

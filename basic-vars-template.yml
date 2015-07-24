@@ -12,4 +12,4 @@ dbtemplate: 'template0'
 ubuntu_release: trusty
 logwatch_email: your@mail.com
 
-tomcat-deploy-password: YOUR_TOMCAT_USER_PASSWORD
+tomcat_deploy_password: YOUR_TOMCAT_USER_PASSWORD

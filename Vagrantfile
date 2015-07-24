@@ -38,7 +38,7 @@ Vagrant.configure(2) do |config|
     db1.vm.hostname = "db1"
     db1.vm.network "private_network", ip: "192.168.56.103"
     db1.vm.provision "ansible" do |db1_ansible|
-      db1_ansible.playbook = "install-and-configures-postgres.yml"
+      db1_ansible.playbook = "install-postgres9.4.yml"
       db1_ansible.inventory_path = "hosts"
     end
   end
@@ -46,6 +46,11 @@ Vagrant.configure(2) do |config|
   config.vm.define "loadbalancer1" do |loadbalancer1|
     loadbalancer1.vm.hostname = "loadbalancer1"
     loadbalancer1.vm.network "private_network", ip: "192.168.56.104"
+    #sudo add-apt-repository -y ppa:vbernat/haproxy-1.5
+    #sudo apt-get update
+    #sudo apt-get install -y haproxy
+
+    #https://serversforhackers.com/load-balancing-with-haproxy
   end
 
   config.vm.define "monitoring1" do |monitoring1|

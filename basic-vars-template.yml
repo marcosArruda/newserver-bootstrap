@@ -1,4 +1,5 @@
 ---
+#this file must stay in home of the users running the ansible or ansible-playbook binaries(~/) 
 dbname: app
 dbuser: app
 dbpassword: YOUR_PASSWORD

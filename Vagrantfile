@@ -23,7 +23,10 @@ Vagrant.configure(2) do |config|
     end
     #tomcat1.vm.network "forwarded_port", guest: 80, host: 8080
   end
-
+  #TOMCAT CLUSTERING, but 6 :/
+  #https://www.mulesoft.com/tcat/tomcat-clustering
+  ## OFFICIAL DOCS
+  #https://tomcat.apache.org/tomcat-7.0-doc/cluster-howto.html
   config.vm.define "tomcat2" do |tomcat2|
     tomcat2.vm.hostname = "tomcat2"
     tomcat2.vm.network "private_network", ip: "192.168.56.102"

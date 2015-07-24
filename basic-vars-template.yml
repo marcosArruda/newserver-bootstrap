@@ -1,0 +1,10 @@
+---
+dbname: app
+dbuser: app
+dbpassword: YOUR_PASSWORD
+dbencoding: 'UTF-8'
+dblc_collate: 'pt_BR.UTF-8'
+dblc_ctype: 'pt_BR.UTF-8'
+dbtemplate: 'template0'
+ubuntu_release: trusty
+logwatch_email: your@mail.com

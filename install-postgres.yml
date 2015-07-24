@@ -10,8 +10,16 @@
 ######## configuring Postgres
 - hosts: db1
   sudo: yes
-  remote_user: postgres
+  sudo_user: postgres
   gather_facts: no
+  vars:
+    dbname: app
+    dbuser: app
+    dbpassword: app
+    dbencoding: 'UTF-8'
+    dblc_collate: 'pt_BR.UTF-8'
+    dblc_ctype: 'pt_BR.UTF-8'
+    dbtemplate: 'template0'
   tasks:
     - name: postgresql should listen on all ports
       lineinfile: dest=/etc/postgresql/9.4/main/postgresql.conf
@@ -28,7 +36,7 @@
           local   all   all        peer
           host    all   all        0.0.0.0/0   md5
       tags:
-         - config
+         - confighba
 
     - name: restart postgresql
       sudo: yes
@@ -38,17 +46,14 @@
 
 # Create rails user, grant privilege to create other databases and demote rails from super user status
 #- postgresql_user: name=rails password=secret role_attr_flags=CREATEDB,NOSUPERUSER
-    - name: creating database user app
-      postgresql_user: name=app db=postgres password=app priv=ALL
+    - name: ensure database is created
+      postgresql_db: name={{dbname}}
+                     encoding={{dbencoding}}
+                     template={{dbtemplate}}
       tags:
-         - createdb
+         - config
 
-    - name: creating basic database
-      postgresql_db: name=app
-                     encoding='UTF-8'
-                     lc_collate='pt_BR.UTF-8'
-                     lc_ctype='pt_BR.UTF-8'
-                     template='template0'
-                     owner='app'
+    - name: ensure user has access to database
+      postgresql_user: db={{dbname}} name={{dbuser}} password={{dbpassword}} priv=ALL
       tags:
-       - createuser
+         - config

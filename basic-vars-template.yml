@@ -1,5 +1,6 @@
 ---
-#this file must stay in home of the users running the ansible or ansible-playbook binaries(~/) 
+#this file must stay in home of the users running the ansible or ansible-playbook binaries(~/)
+
 dbname: app
 dbuser: app
 dbpassword: YOUR_PASSWORD
@@ -7,5 +8,8 @@ dbencoding: 'UTF-8'
 dblc_collate: 'pt_BR.UTF-8'
 dblc_ctype: 'pt_BR.UTF-8'
 dbtemplate: 'template0'
+
 ubuntu_release: trusty
 logwatch_email: your@mail.com
+
+tomcat-deploy-password: YOUR_TOMCAT_USER_PASSWORD

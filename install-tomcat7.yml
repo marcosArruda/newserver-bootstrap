@@ -1,0 +1,67 @@
+---
+- hosts: appservers
+  sudo: yes
+  gather_facts: no
+  tasks:
+    - name: gathering vars from local file
+      include_vars: ~/basic-vars.yml
+      tags:
+        - install
+        - config
+
+    - name: Install Tomcat 7 modules
+      sudo: yes
+      apt: name="{{item}}" state=latest update_cache=yes
+      with_items:
+        - tomcat7
+        - tomcat7-admin
+        - tomcat7-common
+        - tomcat7-docs
+        - tomcat7-user
+      tags:
+        - install
+
+    - name: Configuring Tomcat7 users
+      sudo: yes
+      template: src=config/tomcat7-users-template.xml dest=/etc/tomcat7/tomcat-users.xml
+      tags:
+        - config
+
+    - name: Configuring Tomcat7 config file
+      sudo: yes
+      template: src=config/tomcat7-config-template dest=/etc/default/tomcat7
+      tags:
+        - config
+
+    - name: Configuring Tomcat7 server.xml file
+      sudo: yes
+      template: src=config/tomcat7-server-template.xml dest=/etc/tomcat7/server.xml
+      tags:
+        - config
+
+    - name: Configuring Tomcat7 web.xml file
+      sudo: yes
+      template: src=config/tomcat7-web-template.xml dest=/etc/tomcat7/web.xml
+      tags:
+        - config
+
+    - name: Restarting Tomcat7
+      sudo: yes
+      action: service name=tomcat7 state=restarted
+      tags:
+        - config
+        - restart
+
+
+
+      # TODO: Configurar Logs e portas
+    ##################################################
+    #/etc/tomcat7/server.xml
+    #<Connector port="8080" protocol="HTTP/1.1"
+
+    #<Engine name="Catalina" defaultHost="localhost">
+
+    #<Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs"
+    #           prefix="localhost_access_log." suffix=".txt"
+    #           pattern="%h %l %u %t &quot;%r&quot; %s %b" />
+    ###################################################

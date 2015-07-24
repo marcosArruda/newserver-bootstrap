@@ -54,6 +54,10 @@
          - config
 
     - name: ensure user has access to database
-      postgresql_user: db={{dbname}} name={{dbuser}} password={{dbpassword}} priv=ALL
+      postgresql_user: db={{dbname}}
+                       name={{dbuser}}
+                       password={{dbpassword}}
+                       priv=ALL
+                       role_attr_flags=CREATEDB,CREATEROLE,SUPERUSER,LOGIN,REPLICATION
       tags:
          - config

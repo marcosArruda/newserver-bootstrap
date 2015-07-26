@@ -19,7 +19,8 @@ Vagrant.configure(2) do |config|
     tomcat1.vm.network "private_network", ip: "192.168.56.101"
     tomcat1.vm.provision "ansible" do |tomcat1_ansible|
       tomcat1_ansible.playbook = "install-tomcat7.yml"
-      tomcat1_ansible.inventory_path = "hosts"
+      #tomcat1_ansible.inventory_path = "hosts"
+      #tomcat1_ansible.verbose= "vvvv"
     end
     #tomcat1.vm.network "forwarded_port", guest: 80, host: 8080
   end
@@ -32,7 +33,7 @@ Vagrant.configure(2) do |config|
     tomcat2.vm.network "private_network", ip: "192.168.56.102"
     tomcat2.vm.provision "ansible" do |tomcat2_ansible|
       tomcat2_ansible.playbook = "install-tomcat7.yml"
-      tomcat2_ansible.inventory_path = "hosts"
+      #tomcat2_ansible.inventory_path = "hosts"
     end
     #tomcat2.vm.network "forwarded_port", guest: 80, host: 8080
   end
@@ -42,7 +43,7 @@ Vagrant.configure(2) do |config|
     db1.vm.network "private_network", ip: "192.168.56.103"
     db1.vm.provision "ansible" do |db1_ansible|
       db1_ansible.playbook = "install-postgres9.4.yml"
-      db1_ansible.inventory_path = "hosts"
+      #db1_ansible.inventory_path = "hosts"
     end
   end
 

@@ -1,5 +1,5 @@
 ---
-- hosts: db1
+- hosts: all
   sudo: yes
   gather_facts: no
   vars:
